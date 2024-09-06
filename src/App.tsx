@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { Button, Col, Container, Row } from "react-bootstrap";
+import cat from "./Images/cute_cat.jpg";
 
 function App(): React.JSX.Element {
     return (
@@ -23,10 +24,7 @@ function App(): React.JSX.Element {
                 <li>Another thing</li>
                 <li>A third item</li>
             </ul>
-            <img
-                src="C:\Users\madis\Cisc275\tasks\cute_cat.jpg"
-                alt="A cute cat"
-            />
+            <img src={cat} alt="A cute cat" width="400" height="500" />
             <p>
                 <Button
                     onClick={() => {
