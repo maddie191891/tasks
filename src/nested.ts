@@ -16,7 +16,13 @@ export function getPublishedQuestions(questions: Question[]): Question[] {
  * `expected`, and an empty array for its `options`.
  */
 export function getNonEmptyQuestions(questions: Question[]): Question[] {
-    return [];
+    const newQuestions = questions.filter(
+        (question) =>
+            question.body !== "" ||
+            question.expected !== "" ||
+            question.options.length > 0,
+    );
+    return newQuestions;
 }
 
 /***
