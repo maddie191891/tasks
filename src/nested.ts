@@ -1,5 +1,6 @@
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
+import { duplicateQuestion, makeBlankQuestion } from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
@@ -119,7 +120,13 @@ export function toCSV(questions: Question[]): string {
  * making the `text` an empty string, and using false for both `submitted` and `correct`.
  */
 export function makeAnswers(questions: Question[]): Answer[] {
-    return [];
+    const answerArray = questions.map((question) => ({
+        questionId: question.id,
+        text: "",
+        submitted: false,
+        correct: false,
+    }));
+    return answerArray;
 }
 
 /***
@@ -127,7 +134,11 @@ export function makeAnswers(questions: Question[]): Answer[] {
  * each question is now published, regardless of its previous published status.
  */
 export function publishAll(questions: Question[]): Question[] {
-    return [];
+    const publishedArray = questions.map((question) => ({
+        ...question,
+        published: true,
+    }));
+    return publishedArray;
 }
 
 /***
@@ -135,7 +146,10 @@ export function publishAll(questions: Question[]): Question[] {
  * are the same type. They can be any type, as long as they are all the SAME type.
  */
 export function sameType(questions: Question[]): boolean {
-    return false;
+    const checkType = questions.every(
+        (question: Question): boolean => question.type == questions[0].type,
+    );
+    return checkType;
 }
 
 /***
@@ -149,7 +163,8 @@ export function addNewQuestion(
     name: string,
     type: QuestionType,
 ): Question[] {
-    return [];
+    const newQuestion = [...questions, makeBlankQuestion(id, name, type)];
+    return newQuestion;
 }
 
 /***
@@ -162,7 +177,14 @@ export function renameQuestionById(
     targetId: number,
     newName: string,
 ): Question[] {
-    return [];
+    const newArray = [...questions];
+    const targetIndex = questions.findIndex(
+        (question: Question): boolean => question.id === targetId,
+    );
+    if (targetIndex !== -1) {
+        newArray[targetIndex] = { ...newArray[targetIndex], name: newName };
+    }
+    return newArray;
 }
 
 /***
@@ -177,7 +199,25 @@ export function changeQuestionTypeById(
     targetId: number,
     newQuestionType: QuestionType,
 ): Question[] {
-    return [];
+    const newArray = [...questions];
+    const targetIndex = questions.findIndex(
+        (question: Question): boolean => question.id === targetId,
+    );
+    if (targetIndex !== -1) {
+        if (newQuestionType !== "multiple_choice_question") {
+            newArray[targetIndex] = {
+                ...newArray[targetIndex],
+                type: newQuestionType,
+                options: [],
+            };
+        } else {
+            newArray[targetIndex] = {
+                ...newArray[targetIndex],
+                type: newQuestionType,
+            };
+        }
+    }
+    return newArray;
 }
 
 /**
@@ -196,7 +236,23 @@ export function editOption(
     targetOptionIndex: number,
     newOption: string,
 ): Question[] {
-    return [];
+    const newArray = [...questions];
+    const targetIndex = questions.findIndex(
+        (question: Question): boolean => question.id === targetId,
+    );
+    if (targetIndex !== -1) {
+        const holdOptions = [...newArray[targetIndex].options];
+        if (targetOptionIndex == -1) {
+            holdOptions.push(newOption);
+        } else {
+            holdOptions[targetOptionIndex] = newOption;
+        }
+        newArray[targetIndex] = {
+            ...newArray[targetIndex],
+            options: holdOptions,
+        };
+    }
+    return newArray;
 }
 
 /***
@@ -210,5 +266,13 @@ export function duplicateQuestionInArray(
     targetId: number,
     newId: number,
 ): Question[] {
-    return [];
+    const newArray = [...questions];
+    const targetIndex = questions.findIndex(
+        (question: Question): boolean => question.id === targetId,
+    );
+    if (targetIndex !== -1) {
+        const newQuestion = duplicateQuestion(newId, newArray[targetIndex]);
+        newArray.splice(targetIndex + 1, 0, newQuestion);
+    }
+    return newArray;
 }
