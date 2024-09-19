@@ -33,7 +33,8 @@ export function findQuestion(
     questions: Question[],
     id: number,
 ): Question | null {
-    return null;
+    const question = questions.find((question) => question.id === id);
+    return question || null;
 }
 
 /**
@@ -41,7 +42,10 @@ export function findQuestion(
  * with the given `id`.
  */
 export function removeQuestion(questions: Question[], id: number): Question[] {
-    return [];
+    const newQuestions = questions.filter(
+        (question: Question): boolean => question.id !== id,
+    );
+    return newQuestions;
 }
 
 /***
@@ -49,21 +53,37 @@ export function removeQuestion(questions: Question[], id: number): Question[] {
  * questions, as an array.
  */
 export function getNames(questions: Question[]): string[] {
-    return [];
+    const newArray = questions.map(
+        (question: Question): string => question.name,
+    );
+    return newArray;
 }
 
 /***
  * Consumes an array of questions and returns the sum total of all their points added together.
  */
 export function sumPoints(questions: Question[]): number {
-    return 0;
+    const sum = questions.reduce(
+        (currentTotal: number, question: Question) =>
+            currentTotal + question.points,
+        0,
+    );
+    return sum;
 }
 
 /***
  * Consumes an array of questions and returns the sum total of the PUBLISHED questions.
  */
 export function sumPublishedPoints(questions: Question[]): number {
-    return 0;
+    const newQuestions = questions.filter(
+        (question: Question): boolean => question.published,
+    );
+    const sum = newQuestions.reduce(
+        (currentTotal: number, question: Question) =>
+            currentTotal + question.points,
+        0,
+    );
+    return sum;
 }
 
 /***
