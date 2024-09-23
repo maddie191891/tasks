@@ -45,7 +45,7 @@ export function TwoDice(): React.JSX.Element {
                 <Button onClick={rollLeftDie}>Roll Left</Button>
                 <Button onClick={rollRightDie}>Roll Right</Button>
             </div>
-            {gameStatus() && <div>{gameStatus()}</div>}
+            <div>{gameStatus()}</div>
         </div>
     );
 }
