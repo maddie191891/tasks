@@ -30,7 +30,7 @@ export function CheckAnswer({ expectedAnswer }: CheckAnswerProps) {
                 onChange={handleInputChange}
                 placeholder="Enter your answer"
             />
-            <p>{givenAnswer && checkAnswer()}</p>
+            <p>{checkAnswer()}</p>
         </div>
     );
 }
