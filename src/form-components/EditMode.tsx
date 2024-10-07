@@ -3,7 +3,7 @@ import { Form } from "react-bootstrap";
 
 export function EditMode(): React.JSX.Element {
     const [isEditMode, setIsEditMode] = useState<boolean>(false);
-    const [userName, setUserName] = useState<string>("Your Name");
+    const [studentName, setStudentName] = useState<string>("Your Name");
     const [isStudent, setIsStudent] = useState<boolean>(true);
 
     const handleEditModeChange = () => {
@@ -13,7 +13,7 @@ export function EditMode(): React.JSX.Element {
     const handleNameChange: React.ChangeEventHandler<HTMLInputElement> = (
         event,
     ) => {
-        setUserName(event.target.value);
+        setStudentName(event.target.value);
     };
 
     const handleStudentChange: React.ChangeEventHandler<HTMLInputElement> = (
@@ -36,7 +36,7 @@ export function EditMode(): React.JSX.Element {
                         <Form.Label>Name:</Form.Label>
                         <Form.Control
                             type="text"
-                            value={userName}
+                            value={studentName}
                             onChange={handleNameChange}
                         />
                     </Form.Group>
@@ -50,7 +50,8 @@ export function EditMode(): React.JSX.Element {
                     </Form.Group>
                 </div>
             :   <p>
-                    {userName} is {isStudent ? "a student" : "not a student"}.
+                    {studentName} is {isStudent ? "a student" : "not a student"}
+                    .
                 </p>
             }
         </div>
