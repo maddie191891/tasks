@@ -1,13 +1,36 @@
 import React, { useState } from "react";
 
-export function CheckAnswer({
-    expectedAnswer,
-}: {
+interface CheckAnswerProps {
     expectedAnswer: string;
-}): React.JSX.Element {
+}
+
+export function CheckAnswer({ expectedAnswer }: CheckAnswerProps) {
+    const [givenAnswer, setGivenAnswer] = useState("");
+
+    const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (
+        event,
+    ) => {
+        setGivenAnswer(event.target.value);
+    };
+
+    const checkAnswer = () => {
+        return (
+                givenAnswer.trim().toLowerCase() ===
+                    expectedAnswer.trim().toLowerCase()
+            ) ?
+                "✔️"
+            :   "❌";
+    };
+
     return (
         <div>
-            <h3>Check Answer</h3>
+            <input
+                type="text"
+                value={givenAnswer}
+                onChange={handleInputChange}
+                placeholder="Enter your answer"
+            />
+            <p>{givenAnswer && checkAnswer()}</p>
         </div>
     );
 }
